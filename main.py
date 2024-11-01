@@ -14,7 +14,7 @@ client = discord.Client(intents=intents)
 mods = {
 	'Reforged Mod': 'Battle-Modders/mod-reforged',
 	'Modern Hooks': 'MSUTeam/Modern-Hooks',
-	'MSU Launcher': 'MSUTeam/MSU',
+	'Modding Standards & Utilities (MSU)': 'MSUTeam/MSU',
 	'Modular Vanilla': 'Battle-Modders/mod_modular_vanilla',
 	'Nested Tooltips Framework': 'MSUTeam/nested-tooltips',
 	'Dynamic Perks Framework (DPF)': 'Battle-Modders/Dynamic-Perks-Framework',
