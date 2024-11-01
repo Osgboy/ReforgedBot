@@ -56,7 +56,12 @@ def parse_log(log: str) -> discord.Embed:
         r = requests.get(url, auth=('Osgboy', GITHUB_TOKEN), headers=headers)
         newest = r.json()[0]['tag_name']
 
-        embed.add_field(name=name, value=compare_versions(installed, newest))
+        if installed is None:
+            value = ':x: Not Installed'
+            allCurrent = False
+        else:
+            value = compare_versions(installed, newest)
+        embed.add_field(name=name, value=value)
         print(installed, newest)
 
     if allCurrent:
