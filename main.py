@@ -33,8 +33,8 @@ async def on_ready():
         print('\t' + guild.name)
 
 
-def parse_log(log: str) -> dict:
-    embed = discord.Embed()
+def parse_log(log: str) -> discord.Embed:
+    embed = discord.Embed(color=discord.Color.red())
     newestBBversion = '1.5.0.15'
     allCurrent = True
     def compare_versions(installed: str, newest: str) -> str:
@@ -63,11 +63,10 @@ def parse_log(log: str) -> dict:
             value = compare_versions(installed, newest)
         embed.add_field(name=name, value=value)
         print(installed, newest)
-
-    return {
-        "AllCurrent" : allCurrent,
-        "embed" : embed
-    }
+    
+    if allCurrent:
+        embed = discord.Embed(color=discord.Color.green(), description="All required mods are installed! :white_check_mark:")
+    return embed
 
 @client.event
 async def on_message(message: discord.Message):
@@ -76,12 +75,9 @@ async def on_message(message: discord.Message):
         if attachment.filename == 'log.html' and attachment.content_type[:5] == 'text/':
             if attachment.size <= 10000000:
                 log = await attachment.read()
-                parse_result = parse_log(str(log, 'UTF-8'))
-                if not parse_result["AllCurrent"]:
-                    embed = parse_result["embed"]
-                    embed.title = f"{message.author.display_name}'s Log Version Check"
-                    embed.color = discord.color.red()
-                    await message.channel.send(embed=embed)
+                embed = parse_log(str(log, 'UTF-8'))
+                embed.title = f"{message.author.display_name}'s Log Version Check"
+                await message.channel.send(embed=embed)
             else:
                 await message.channel.send("Log file exceeds 10 MB!")
 
