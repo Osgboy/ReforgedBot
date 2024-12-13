@@ -49,7 +49,7 @@ def parse_log(log: str) -> discord.Embed:
     embed.add_field(name='BB Version', value=compare_versions(installedBBversion, newestBBversion), inline=False)
     print(installedBBversion, newestBBversion)
     for name, repo in mods.items():
-        installed = re.search(rf"<span style=\"color:#FFFFFF\">{re.escape(name)}</span> (?:.*?) version <span (?:.*?)>([\d\.]*.?)</span>", log).group(1)
+        installed = re.search(rf"<span style=\"color:#FFFFFF\">{re.escape(name)}</span> (?:.*?) version <span (?:.*?)>([\d\.]*.?)</span>", log)
 
         url = f'https://api.github.com/repos/{repo}/releases'
         headers = {'Accept': 'application/vnd.github+json'}
@@ -59,10 +59,11 @@ def parse_log(log: str) -> discord.Embed:
         if installed is None:
             value = ':x: Not Installed'
             allCurrent = False
+            print('Not installed', newest)
         else:
-            value = compare_versions(installed, newest)
+            value = compare_versions(installed.group(1), newest)
+            print(installed.group(1), newest)
         embed.add_field(name=name, value=value)
-        print(installed, newest)
 
     if allCurrent:
         embed.color = discord.Color.green()
