@@ -34,7 +34,7 @@ async def on_ready():
 
 
 def parse_log(log: str) -> discord.Embed:
-    embed = discord.Embed()
+    embed = discord.Embed(color=discord.Color.red())
     newestBBversion = '1.5.0.15'
     allCurrent = True
     def compare_versions(installed: str, newest: str) -> str:
@@ -66,9 +66,7 @@ def parse_log(log: str) -> discord.Embed:
         embed.add_field(name=name, value=value)
 
     if allCurrent:
-        embed.color = discord.Color.green()
-    else:
-        embed.color = discord.Color.red()
+        embed = discord.Embed(color=discord.Color.green(), description="All required mods are installed! :white_check_mark:")
     return embed
 
 
