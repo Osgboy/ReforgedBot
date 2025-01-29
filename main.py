@@ -72,9 +72,8 @@ def parse_log(log: str) -> discord.Embed:
 
 @client.event
 async def on_message(message: discord.Message):
-    print(message.content)
     for attachment in message.attachments:
-        if attachment.filename == 'log.html' and attachment.content_type[:5] == 'text/':
+        if attachment.filename[-5:] == '.html' and attachment.content_type[:5] == 'text/':
             if attachment.size <= 10000000:
                 log = await attachment.read()
                 embed = parse_log(str(log, 'UTF-8'))
