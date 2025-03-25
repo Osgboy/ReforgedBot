@@ -43,13 +43,13 @@ def parse_log(log: str) -> discord.Embed:
             return f':white_check_mark: {installed}'
         else:
             allCurrent = False
-            return f':x: {installed} < {newest}'
+            return f':x: {installed} ≠ {newest}'
 
     installedBBversion = re.search(r"<html><head><title>Battle Brothers ([\d\.]*.?)</title>", log).group(1)
     embed.add_field(name='BB Version', value=compare_versions(installedBBversion, newestBBversion), inline=False)
     print(installedBBversion, newestBBversion)
     for name, repo in mods.items():
-        installed = re.search(rf"<span style=\"color:#FFFFFF\">{re.escape(name)}</span> (?:.*?) version <span (?:.*?)>([\d\.]*.?)</span>", log)
+        installed = re.search(rf"<span style=\"color:#FFFFFF\">{re.escape(name)}</span> (?:.*?) version <span (?:.*?)>(.*?)</span>", log)
 
         url = f'https://api.github.com/repos/{repo}/releases'
         headers = {'Accept': 'application/vnd.github+json'}
