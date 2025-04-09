@@ -35,7 +35,7 @@ async def on_ready():
 
 def parse_log(log: str) -> discord.Embed:
     embed = discord.Embed(color=discord.Color.red())
-    newestBBversion = '1.5.0.15'
+    newestBBversion = '1.5.1.6'
     allCurrent = True
     def compare_versions(installed: str, newest: str) -> str:
         nonlocal allCurrent
