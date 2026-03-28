@@ -35,7 +35,7 @@ async def on_ready():
 
 def parse_log(log: str) -> discord.Embed:
     embed = discord.Embed(color=discord.Color.red())
-    newestBBversion = '1.5.1.6'
+    newestBBversion = '1.5.1.8'
     allCurrent = True
     def compare_versions(installed: str, newest: str) -> str:
         nonlocal allCurrent
@@ -54,7 +54,14 @@ def parse_log(log: str) -> discord.Embed:
         url = f'https://api.github.com/repos/{repo}/releases'
         headers = {'Accept': 'application/vnd.github+json'}
         r = requests.get(url, auth=('Osgboy', GITHUB_TOKEN), headers=headers)
-        newest = r.json()[0]['tag_name']
+        newest = ''
+        for release in r.json():
+            if not release['prerelease']:
+                newest = release['tag_name']
+                print(name, newest)
+                break
+            else:
+                newest = r.json()[0]['tag_name']
 
         if installed is None:
             value = ':x: Not Installed'
@@ -76,7 +83,7 @@ async def on_message(message: discord.Message):
         if attachment.filename[-5:] == '.html' and attachment.content_type[:5] == 'text/':
             if attachment.size <= 10000000:
                 log = await attachment.read()
-                embed = parse_log(str(log, 'UTF-8'))
+                embed = parse_log(str(log, 'latin-1'))
                 embed.title = f"{message.author.display_name}'s Log Version Check"
                 await message.channel.send(embed=embed)
             else:
